@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/si1718/si1718-jpg-publications/issues"
   },
-  "homepage": "https://github.com/si1718/si1718-jpg-publications#readme"
+  "homepage": "https://github.com/si1718/si1718-jpg-publications#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }
