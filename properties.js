@@ -1,0 +1,32 @@
+var URL_BASE = "/v1/";
+var BBDD_URL = "";
+var RESSOURCE_NAME = "articles";
+//CODE SUCESS
+var CODE_SUCESS = 200;
+var CODE_CREATED = 201;
+var CODE_NO_CONTENT = 204;
+
+//CODE ERROR
+var CODE_BAD_REQUEST = 400;
+var CODE_UNAUTHORIZED = 401;
+var CODE_NOT_FOUND = 404;
+var CODE_METHOD_NOT_ALLOWED = 405;
+var CODE_CONFLICT = 409;
+var CODE_INTERNAL_ERROR = 500;
+
+
+module.exports = {
+   URL_BASE: function(){
+       return URL_BASE;
+   },
+   BBDD_URL: function(){
+       return BBDD_URL;
+   },
+   RESSOURCE_NAME: function(){
+       return RESSOURCE_NAME;
+   },
+   CODE_SUCESS:CODE_SUCESS,
+   CODE_NO_CONTENT: CODE_NO_CONTENT,
+   CODE_NOT_FOUND:CODE_NOT_FOUND,
+   CODE_INTERNAL_ERROR:CODE_INTERNAL_ERROR
+}
