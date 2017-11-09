@@ -1,5 +1,5 @@
 var URL_BASE = "/v1/";
-var BBDD_URL = "";
+var BBDD_URL = process.env.BD_URL;
 var RESSOURCE_NAME = "articles";
 //CODE SUCESS
 var CODE_SUCESS = 200;
