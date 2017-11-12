@@ -63,7 +63,7 @@ app.post(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req, 
                                 res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
                             }
                             else {
-                                res.send();
+                                res.sendStatus(propertiesJS.CODE_SUCESS);
                             }
                         });
                     }
@@ -143,7 +143,7 @@ app.put(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:articleId",
                                 res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
                             }
                             else {
-                                res.send();
+                                res.sendStatus(propertiesJS.CODE_SUCESS);
                             }
                         });
                     }
