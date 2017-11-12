@@ -1,3 +1,5 @@
+"use strict";
+
 var expressJS = require("express");
 var bodyParserJS = require("body-parser");
 var mongodbJS = require("mongodb");
