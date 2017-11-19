@@ -97,7 +97,7 @@ function sanitizeDoi(doi, article) {
 		idArticle = generateUniqueID(article);
 	}
 	idArticle = idArticle.toLowerCase();
-	return idArticle;
+	return cleanSpecialChars(idArticle);
 }
 	
 function generateUniqueID(article) {
@@ -120,6 +120,17 @@ function generateUniqueID(article) {
 		result += article.year;
 	}
 	return result.trim().replace(/\//g, "-");
+}
+
+function cleanSpecialChars(idArticle) {
+    var acceptedChars = "abcdefghijklmnopqrstuvwxyz1234567890-";
+	var result = "";
+	for (var i = 0, len = idArticle.length; i < len; i++) {
+	    if(acceptedChars.includes(idArticle[i])){
+	        result += idArticle[i];
+	    }
+	}
+	return result;
 }
 
 module.exports.Articles = Articles;
