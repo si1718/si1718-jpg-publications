@@ -48,7 +48,7 @@ app.post(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req, 
         if (articlesJS.validateArticle(newResource)) {
             var article = articlesJS.convertJsonToObject(req.body);
             // Check if exist
-            var query = { articleId: article.articleId };
+            var query = { idArticle: article.idArticle };
             articlesCollection.findOne(query, function(error, found) {
                 if (error) {
                     res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
@@ -95,15 +95,15 @@ app.delete(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req
 });
 
 //Create resources retrievers
-app.get(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:articleId", function(req, res) {
-    var articleId = req.params.articleId;
-    if (!articleId) {
+app.get(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:idArticle", function(req, res) {
+    var idArticle = req.params.idArticle;
+    if (!idArticle) {
         res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
     }
     else {
-        var query = { articleId: articlesJS.sanitizeDoi(req.params.articleId) }
+        var query = { idArticle: articlesJS.sanitizeDoi(req.params.idArticle) }
         articlesCollection.find(query).toArray(function(error, articles) {
-            if (!articleId) {
+            if (!idArticle) {
                 res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
             }
             else {
@@ -118,17 +118,17 @@ app.get(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:articleId",
     }
 });
 
-app.put(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:articleId", function(req, res) {
-    var articleId = req.params.articleId;
+app.put(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:idArticle", function(req, res) {
+    var idArticle = req.params.idArticle;
     var newResource = req.body;
-    if (!newResource || !articleId) {
+    if (!newResource || !idArticle) {
         res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
     }
     else {
         if (articlesJS.validateArticle(newResource)) {
             var article = articlesJS.convertJsonToObject(req.body);
             // Check if exist
-            var query = { articleId: articlesJS.sanitizeDoi(articleId)};
+            var query = { idArticle: articlesJS.sanitizeDoi(idArticle)};
             articlesCollection.findOne(query, function(error, found) {
                 if (error) {
                     res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
@@ -156,20 +156,20 @@ app.put(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:articleId",
     }
 });
 
-app.delete(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:articleId", function(req, res) {
-    var articleId = req.params.articleId;
-    if (!articleId) {
+app.delete(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:idArticle", function(req, res) {
+    var idArticle = req.params.idArticle;
+    if (!idArticle) {
         res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
     }
     else {
-        var query = { articleId: articlesJS.sanitizeDoi(req.params.articleId) }
+        var query = { idArticle: articlesJS.sanitizeDoi(req.params.idArticle) }
         articlesCollection.deleteOne(query, function(error, rows) {
             if (error) {
                 res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
             }
             else {
                 if (rows > 0) {
-                    console.log("Delete resource: " + articleId);
+                    console.log("Delete resource: " + idArticle);
                     res.sendStatus(propertiesJS.CODE_NO_CONTENT);
                 }
                 else {

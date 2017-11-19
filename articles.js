@@ -3,7 +3,7 @@
 class Articles{
 
  constructor(doi, title){
-    this.articleId = sanitizeDoi(doi); 
+    this.idArticle = null;
     this.title = title;
     this.doi = doi;
     this.journal = "";
@@ -26,6 +26,7 @@ function convertJsonToObject(json){
     object.number = json.volume;
     object.initPage = json.initPage;
     object.lastPage = json.lastPage;
+    object.idArticle = sanitizeDoi(json.doi, object);
     return object;
 }
 
@@ -35,7 +36,7 @@ function validateArticle(article){
         return false;
     }
     if(!article.doi || article.doi == ""){
-        return false;
+        //return false;
     }
     if(!article.title || article.title == ""){
         return false;
@@ -68,8 +69,57 @@ function isNumber (o) {
   return ! isNaN (o-0) && o !== null && o !== "" && o !== false;
 }
 
-function sanitizeDoi(doi){
-    return doi.replace(/\//g, "-");
+function sanitizeDoi(doi, article) {
+    var idArticle = null;
+	if(doi === "") {
+		return null;
+	}
+	if(doi !== null) {
+		if(doi.includes("dx.doi.org")) {
+			var finaldoi = "";
+			var parts = doi.split("/");
+			var found = false;
+			for(var i = 0; i < parts.length; i++) {
+				if(!found) {
+					if(parts[i].includes("dx.doi.org")) {
+						found = true;
+					}
+					continue;
+				} else {
+					finaldoi += "-" + parts[i];
+				}
+			}
+			idArticle = finaldoi;
+		} else {
+			idArticle = doi.replace(/\//g, "-");
+		}
+	} else {
+		idArticle = generateUniqueID(article);
+	}
+	idArticle = idArticle.toLowerCase();
+	return idArticle;
+}
+	
+function generateUniqueID(article) {
+	var result = "";
+	var nameP = article.title.split(" ");
+	nameP.forEach( function(value, index, array) {
+        if(value !== "") {
+			result += value.charAt(0);
+		}
+    });
+	if(article.journal !== null) {
+		var journalP = article.journal.split(" ");
+		journalP.forEach( function(value, index, array) {
+            if(value !== "") {
+		        result += value.charAt(0);
+		    }
+        });
+	}
+	if(article.year !== null) {
+		result += article.year;
+	}
+	return result.trim().replace(/\//g, "-");
 }
 
 module.exports.Articles = Articles;

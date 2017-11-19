@@ -1,6 +1,6 @@
 "use strict";
 
-var URL_BASE = "/v1/";
+var URL_BASE = "/api/v1/";
 var BBDD_URL = process.env.BD_URL;
 var RESSOURCE_NAME = "articles";
 //CODE SUCESS
