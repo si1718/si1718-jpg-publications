@@ -17,7 +17,7 @@ class Articles{
  
 }
 
-function convertJsonToObject(json){
+function convertJsonToObject(json, idArticle){
     var object = new Articles(json.doi, json.title);
     object.journal = json.journal;
     object.year = json.year;
@@ -26,7 +26,11 @@ function convertJsonToObject(json){
     object.number = json.volume;
     object.initPage = json.initPage;
     object.lastPage = json.lastPage;
-    object.idArticle = sanitizeDoi(json.doi, object);
+    if(idArticle != null && idArticle != undefined){
+        object.idArticle = idArticle;
+    } else {
+        object.idArticle = sanitizeDoi(json.doi, object);
+    }
     return object;
 }
 
@@ -35,31 +39,33 @@ function validateArticle(article){
     if(!article){
         return false;
     }
-    if(!article.doi || article.doi == ""){
-        //return false;
-    }
-    if(!article.title || article.title == ""){
+    if(!article.doi && article.doi === ""){
         return false;
     }
-    if(!article.journal || article.journal == ""){
+    if(!article.title || article.title === ""){
         return false;
     }
-    if(!article.year || !isNumber(article.year)){
+    if(!article.journal && article.journal === ""){
         return false;
     }
-    if(!article.volume || !isNumber(article.volume)){
+    if(!article.year && !isNumber(article.year)){
         return false;
     }
-    if(!article.number || !isNumber(article.number)){
+    if(!article.volume && !isNumber(article.volume)){
         return false;
     }
-    if(!article.initPage || !isNumber(article.initPage)){
+    if(!article.number && !isNumber(article.number)){
         return false;
     }
-    if(!article.lastPage || !isNumber(article.lastPage)){
+    if(!article.initPage && !isNumber(article.initPage)){
+        return false;
+    }
+    if(!article.lastPage && !isNumber(article.lastPage)){
         return false;
     }
     if(!(article.authors instanceof Array)){
+        return false;
+    } else if (article.authors.length == 0){
         return false;
     }
     return result;
