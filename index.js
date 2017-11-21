@@ -26,6 +26,7 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
 });
 
 app.use(bodyParserJS.json());
+app.use(expressJS.static('./static/'));
 
 //Create main retrievers
 app.get(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req, res) {
