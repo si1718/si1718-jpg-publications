@@ -64,7 +64,7 @@ app.post(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req, 
                                 res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
                             }
                             else {
-                                res.sendStatus(propertiesJS.CODE_SUCESS);
+                                res.sendStatus(propertiesJS.CODE_CREATED);
                             }
                         });
                     }
