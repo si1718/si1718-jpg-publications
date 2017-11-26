@@ -41,6 +41,15 @@ function function_name($scope, $http, $httpParamSerializer, $location, lockServi
         });
     }
     
+    function doSearchArticle(){
+        $scope.limit = 10;
+        $scope.skip = 0;
+        $scope.pageNumber = 0;
+        $scope.isFirst = true;
+        $scope.isLast = false;
+        searchArticle();
+    }
+    
     function searchArticle(){
         $scope.articleToSearch.limit = $scope.limit;
         $scope.articleToSearch.skip = $scope.skip;
@@ -97,7 +106,7 @@ function function_name($scope, $http, $httpParamSerializer, $location, lockServi
     $scope.editArticle = editArticle;
     $scope.removeArticle = removeArticle;
     $scope.clearSearchArticle = clearSearchArticle;
-    $scope.searchArticle = searchArticle;
+    $scope.searchArticle = doSearchArticle;
     $scope.nextPage = nextPage;
     $scope.previousPage = previousPage;
     $scope.limit = 10;
