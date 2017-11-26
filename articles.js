@@ -20,12 +20,12 @@ class Articles{
 function convertJsonToObject(json, idArticle){
     var object = new Articles(json.doi, json.title);
     object.journal = json.journal;
-    object.year = json.year;
+    object.year = parseInt(json.year);
     object.authors = json.authors;
-    object.volume = json.volume;
-    object.number = json.number;
-    object.initPage = json.initPage;
-    object.lastPage = json.lastPage;
+    object.volume = json.volume ? parseInt(json.volume) : null;
+    object.number = json.number ? parseInt(json.number) : null;
+    object.initPage = json.initPage ? parseInt(json.initPage) : null;
+    object.lastPage = json.lastPage ? parseInt(json.lastPage) : null;
     if(idArticle != null && idArticle != undefined){
         object.idArticle = idArticle;
     } else {
@@ -59,24 +59,24 @@ function createQueryObject(query){
         object.journal = {$regex: REGEX_PATTERN + query.journal + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     if(query.year && isNumber(query.year)){
-        object.year = query.year;
-        object.year = {$regex: REGEX_PATTERN + query.year + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        object.year = parseInt(query.year);
+        //object.year = {$regex: REGEX_PATTERN + query.year + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     if(query.volume && isNumber(query.volume)){
-        object.volume = query.volume;
-        object.volume = {$regex: REGEX_PATTERN + query.volume + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        object.volume = parseInt(query.volume);
+        //object.volume = {$regex: REGEX_PATTERN + query.volume + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     if(query.number && isNumber(query.number)){
-        object.number = query.number;
-        object.number = {$regex: REGEX_PATTERN + query.number + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        object.number = parseInt(query.number);
+        //object.number = {$regex: REGEX_PATTERN + query.number + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     if(query.initPage && isNumber(query.initPage)){
-        object.initPage = query.initPage;
-        object.initPage = {$regex: REGEX_PATTERN + query.initPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        object.initPage = parseInt(query.initPage);
+        //object.initPage = {$regex: REGEX_PATTERN + query.initPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     if(query.lastPage && isNumber(query.lastPage)){
-        object.lastPage = query.lastPage;
-        object.lastPage = {$regex: REGEX_PATTERN + query.lastPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        object.lastPage = parseInt(query.lastPage);
+        //object.lastPage = {$regex: REGEX_PATTERN + query.lastPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     /*if(query.authors instanceof Array){
         if (query.authors.length != 0){

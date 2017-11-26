@@ -19,12 +19,14 @@
             <th>Selected</th>
             <th>Title</th>
             <th>Journal</th>
+            <th>Year</th>
             <th>Doi</th>
         </tr>
         <tr>
             <th><button class="btn btn-primary btn-success" ng-click="searchArticle()">Quick Search</button></th>
             <th><input ng-model="articleToSearch.title" /></th>
             <th><input ng-model="articleToSearch.journal" /></th>
+            <th><input ng-model="articleToSearch.year" /></th>
             <th><input ng-model="articleToSearch.doi" /></th>
         </tr>
     </thead>
@@ -34,6 +36,7 @@
             <td><span class="glyphicon glyphicon-ok" ng-show="article.idArticle === idSelected"></span></td>
             <td>{{article.title}}</td>
             <td>{{article.journal}}</td>
+            <td>{{article.year}}</td>
             <td>{{article.doi}}</td>
         </tr>
     </tbody>

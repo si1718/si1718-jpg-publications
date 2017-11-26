@@ -5,12 +5,14 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
     $scope.buttonAction = "Add";
     $scope.idArticle = $routeParams.idArticle;
     function addArticle(){
+        if(!($scope.newArticle.authors instanceof Array)){
+            $scope.newArticle.authors = propertiesService.splitAuthors($scope.newArticle.authors);
+        }
         if(lockService.checkLock()){
             modalService.showAlert(propertiesService.ERROR_APP_BUSSY);
             return;
         }
         lockService.blockLock();
-        $scope.newArticle.authors = propertiesService.splitAuthors($scope.newArticle.authors);
         $http.post("/api/v1/articles/", $scope.newArticle).then(function(response){
             console.log("added");
             $scope.refresh();

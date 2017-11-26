@@ -10,14 +10,14 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
         });
     }
     function updateArticle(){
+        if(!($scope.article.authors instanceof Array)){
+            $scope.article.authors = propertiesService.splitAuthors($scope.article.authors);
+        }
         if(lockService.checkLock()){
             modalService.showAlert(propertiesService.ERROR_APP_BUSSY);
             return;
         }
         lockService.blockLock();
-        if(!($scope.article.authors instanceof Array)){
-            $scope.article.authors = propertiesService.splitAuthors($scope.article.authors);
-        }
         $http.put("/api/v1/articles/" + $scope.idArticle, $scope.article).then(function(response){
             console.log("updated");
             $location.path("/");
