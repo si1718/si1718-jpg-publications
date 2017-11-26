@@ -1,0 +1,21 @@
+<h1>{{article.title}}</h1>
+<label for="doi">DOI</label>
+<input type="text" name="doi" ng-model="article.doi"/><br/>
+<label for="title">Title</label>
+<input type="text" name="title" ng-model="article.title"/><br/>
+<label for="journal">Journal</label>
+<input type="text" name="journal" ng-model="article.journal"/><br/>
+<label for="year">Year</label>
+<input type="text" name="year" ng-model="article.year"/><br/>
+<label for="authors">Authors</label>
+<input type="text" name="authors" ng-model="article.authors"/><br/>
+<label for="volume">Volume</label>
+<input type="text" name="volume" ng-model="article.volume"/><br/>
+<label for="number">Number</label>
+<input type="text" name="number" ng-model="article.number"/><br/>
+<label for="initPage">Initial Page</label>
+<input type="text" name="initPage" ng-model="article.initPage"/><br/>
+<label for="lastPage">Last Page</label>
+<input type="text" name="lastPage" ng-model="article.lastPage"/><br/>
+<button class="btn btn-primary" ng-click="updateArticle()">{{buttonAction}}</button>
+<button class="btn btn-primary btn-danger" ng-click="cancel()">Cancel</button>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="ArticlesApp">
+    <head>
+        <title>Articles</title>
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.min.css" type="text/css" />
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="/controllers/main-ctrl.js"></script>
+        <script type="text/javascript" src="/controllers/list-ctrl.js"></script>
+        <script type="text/javascript" src="/controllers/edit-ctrl.js"></script>
+        <script type="text/javascript" src="/controllers/add-ctrl.js"></script>
+    </head>
+    <body>
+        <!-- Modal -->
+        <div id="systemModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="systemModalHeader">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="systemModalText">Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-view></div>
+    </body>
+</html>

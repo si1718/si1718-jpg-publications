@@ -1,0 +1,20 @@
+<h1>New Article</h1>
+<label for="doi">DOI</label>
+<input type="text" name="doi" ng-model="newArticle.doi"/><br/>
+<label for="title">Title</label>
+<input type="text" name="title" ng-model="newArticle.title"/><br/>
+<label for="journal">Journal</label>
+<input type="text" name="journal" ng-model="newArticle.journal"/><br/>
+<label for="year">Year</label>
+<input type="text" name="year" ng-model="newArticle.year"/><br/>
+<label for="authors">Authors</label>
+<input type="text" name="authors" ng-model="newArticle.authors"/><br/>
+<label for="volume">Volume</label>
+<input type="text" name="volume" ng-model="newArticle.volume"/><br/>
+<label for="number">Number</label>
+<input type="text" name="number" ng-model="newArticle.number"/><br/>
+<label for="initPage">Initial Page</label>
+<input type="text" name="initPage" ng-model="newArticle.initPage"/><br/>
+<label for="lastPage">Last Page</label>
+<input type="text" name="lastPage" ng-model="newArticle.lastPage"/><br/>
+<button class="btn btn-primary" ng-click="addArticle()">{{buttonAction}}</button>

@@ -23,7 +23,7 @@ function convertJsonToObject(json, idArticle){
     object.year = json.year;
     object.authors = json.authors;
     object.volume = json.volume;
-    object.number = json.volume;
+    object.number = json.number;
     object.initPage = json.initPage;
     object.lastPage = json.lastPage;
     if(idArticle != null && idArticle != undefined){
@@ -34,33 +34,90 @@ function convertJsonToObject(json, idArticle){
     return object;
 }
 
+var REGEX_OPTIONS = "i";
+var REGEX_PATTERN = ".*";
+
+function createQueryObject(query){
+    var object = {};
+    if(!query){
+        return null;
+    }
+    if(query.idArticle && query.idArticle !== ""){
+        object.idArticle = {$regex: REGEX_PATTERN + query.idArticle + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        //object.idArticle = query.idArticle;
+    }
+    if(query.doi && query.doi !== ""){
+        //object.doi = query.doi;
+        object.doi = {$regex: REGEX_PATTERN + query.doi + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.title && query.title !== ""){
+        object.title = query.title;
+        object.title = {$regex: REGEX_PATTERN + query.title + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.journal && query.journal !== ""){
+        object.journal = query.journal;
+        object.journal = {$regex: REGEX_PATTERN + query.journal + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.year && isNumber(query.year)){
+        object.year = query.year;
+        object.year = {$regex: REGEX_PATTERN + query.year + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.volume && isNumber(query.volume)){
+        object.volume = query.volume;
+        object.volume = {$regex: REGEX_PATTERN + query.volume + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.number && isNumber(query.number)){
+        object.number = query.number;
+        object.number = {$regex: REGEX_PATTERN + query.number + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.initPage && isNumber(query.initPage)){
+        object.initPage = query.initPage;
+        object.initPage = {$regex: REGEX_PATTERN + query.initPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.lastPage && isNumber(query.lastPage)){
+        object.lastPage = query.lastPage;
+        object.lastPage = {$regex: REGEX_PATTERN + query.lastPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    /*if(query.authors instanceof Array){
+        if (query.authors.length != 0){
+            object.authors = query.authors;
+            object.authors = {$regex: REGEX_PATTERN + query.authors + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        }
+    }*/
+    if (query.authors && query.authors !== ""){
+        object.authors = query.authors;
+        object.authors = {$regex: REGEX_PATTERN + query.authors + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    return object;
+}
+
 function validateArticle(article){
     var result = true;
     if(!article){
         return false;
     }
-    if(!article.doi && article.doi === ""){
+    if(article.doi && article.doi === ""){
         return false;
     }
     if(!article.title || article.title === ""){
         return false;
     }
-    if(!article.journal && article.journal === ""){
+    if(article.journal && article.journal === ""){
         return false;
     }
-    if(!article.year && !isNumber(article.year)){
+    if(article.year && !isNumber(article.year)){
         return false;
     }
-    if(!article.volume && !isNumber(article.volume)){
+    if(article.volume && !isNumber(article.volume)){
         return false;
     }
-    if(!article.number && !isNumber(article.number)){
+    if(article.number && !isNumber(article.number)){
         return false;
     }
-    if(!article.initPage && !isNumber(article.initPage)){
+    if(article.initPage && !isNumber(article.initPage)){
         return false;
     }
-    if(!article.lastPage && !isNumber(article.lastPage)){
+    if(article.lastPage && !isNumber(article.lastPage)){
         return false;
     }
     if(!(article.authors instanceof Array)){
@@ -143,3 +200,4 @@ module.exports.Articles = Articles;
 module.exports.convertJsonToObject = convertJsonToObject;
 module.exports.validateArticle = validateArticle;
 module.exports.sanitizeDoi = sanitizeDoi;
+module.exports.createQueryObject = createQueryObject;

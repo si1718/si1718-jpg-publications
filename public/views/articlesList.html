@@ -1,0 +1,43 @@
+<h3>Articles</h3>
+<button class="btn btn-primary" data-toggle="collapse" data-target="#divNewArticle">New</button>
+<button class="btn btn-primary" ng-click="editArticle()" ng-class="{disabled: undefined === idSelected}">Edit</button>
+<button class="btn btn-primary btn-danger" ng-click="removeArticle()" ng-class="{disabled: undefined === idSelected}">Remove</button>
+<button class="btn btn-primary btn-success" data-toggle="collapse" data-target="#divSearchArticle">Advance Search</button>
+<div id="divNewArticle" class="collapse">
+    <ng-include src="'/views/articleAdd.html'" ng-controller="AddCtrl">
+    </ng-include>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#divNewArticle">Close</button>
+</div>
+<div id="divSearchArticle" class="collapse">
+    <ng-include src="'/views/articlesSearch.html'">
+    </ng-include>
+    <button class="btn btn-primary" data-toggle="collapse" data-target="#divSearchArticle">Close</button>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Selected</th>
+            <th>Title</th>
+            <th>Journal</th>
+            <th>Doi</th>
+        </tr>
+        <tr>
+            <th><button class="btn btn-primary btn-success" ng-click="searchArticle()">Quick Search</button></th>
+            <th><input ng-model="searchArticle.title" /></th>
+            <th><input ng-model="searchArticle.journal" /></th>
+            <th><input ng-model="searchArticle.doi" /></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="article in articles track by article.idArticle" 
+        ng-click="setSelected(article.idArticle)" ng-class="{selected: article.idArticle === idSelected}">
+            <td><span class="glyphicon glyphicon-ok" ng-show="article.idArticle === idSelected"></span></td>
+            <td>{{article.title}}</td>
+            <td>{{article.journal}}</td>
+            <td>{{article.doi}}</td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-primary" ng-click="previousPage()" ng-class="{disabled: true === isFirst}">Previous Page</button>
+<span>Page number {{pageNumber}}</span>
+<button class="btn btn-primary" ng-click="nextPage()" ng-class="{disabled: true === isLast}">Next Page</button>

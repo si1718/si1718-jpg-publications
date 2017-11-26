@@ -26,18 +26,43 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
 });
 
 app.use(bodyParserJS.json());
-app.use(expressJS.static('./static/'));
+app.use(expressJS.static('./public/'));
 
 //Create main retrievers
 app.get(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req, res) {
-    articlesCollection.find({}).toArray(function(error, articles) {
+    var urlQuery = req.query;
+    var query;
+    var limit = null;
+    var last = null;
+    if(urlQuery){
+        query = articlesJS.createQueryObject(urlQuery);
+        if(query == null){
+            query = {}
+        }
+        if(urlQuery.limit && urlQuery.skip){
+            try{
+                limit= parseInt(urlQuery.limit);
+                last = parseInt(urlQuery.skip);
+            } catch(error){
+                res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
+                return;
+            }
+        }
+    }
+    
+    function searchCallback(error, articles) {
         if (error) {
             res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
         }
         else {
             res.send(articles);
         }
-    });
+    }
+    if(limit !== null && last !== null){
+        articlesCollection.find(query).skip(last).limit(limit).toArray(searchCallback);
+    } else {
+        articlesCollection.find(query).toArray(searchCallback);
+    }
 });
 
 app.post(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME(), function(req, res) {

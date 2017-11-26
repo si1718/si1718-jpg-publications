@@ -1,0 +1,23 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/si1718/si1718-jpg-publications",
+  "authors": [
+    "Joaquin Pineda <pinedaj270309@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "^1.6.6",
+    "angular": "^1.6.6",
+    "jquery": "^3.2.1",
+    "bootstrap": "^3.3.7"
+  }
+}
