@@ -6,7 +6,10 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
     $scope.idArticle = $routeParams.idArticle;
     function addArticle(){
         if(!($scope.newArticle.authors instanceof Array)){
-            $scope.newArticle.authors = propertiesService.splitAuthors($scope.newArticle.authors);
+            $scope.newArticle.authors = propertiesService.splitCSV($scope.newArticle.authors);
+        }
+        if($scope.newArticle.keywords && !($scope.newArticle.keywords instanceof Array)){
+           $scope.newArticle.keywords = propertiesService.splitCSV($scope.newArticle.keywords); 
         }
         if(lockService.checkLock()){
             modalService.showAlert(propertiesService.ERROR_APP_BUSSY);

@@ -13,6 +13,7 @@ class Articles{
     this.number = 0;
     this.initPage = 0;
     this.lastPage = 0;
+    this.keywords = [];
  }
  
 }
@@ -26,6 +27,7 @@ function convertJsonToObject(json, idArticle){
     object.number = json.number ? parseInt(json.number) : null;
     object.initPage = json.initPage ? parseInt(json.initPage) : null;
     object.lastPage = json.lastPage ? parseInt(json.lastPage) : null;
+    object.keywords = json.keywords;
     if(idArticle != null && idArticle != undefined){
         object.idArticle = idArticle;
     } else {
@@ -85,8 +87,13 @@ function createQueryObject(query){
         }
     }*/
     if (query.authors && query.authors !== ""){
-        object.authors = query.authors;
+        //object.authors = query.authors;
         object.authors = {$regex: REGEX_PATTERN + query.authors + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    
+    if(query.keywords && query.keywords !== ""){
+        //object.keywords = query.keywords;
+        object.keywords = {$regex: REGEX_PATTERN + query.keywords + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     return object;
 }
@@ -123,6 +130,9 @@ function validateArticle(article){
     if(!(article.authors instanceof Array)){
         return false;
     } else if (article.authors.length == 0){
+        return false;
+    }
+    if(article.keywords && !(article.keywords instanceof Array)){
         return false;
     }
     return result;
@@ -186,7 +196,7 @@ function generateUniqueID(article) {
 }
 
 function cleanSpecialChars(idArticle) {
-    var acceptedChars = "abcdefghijklmnopqrstuvwxyz1234567890-";
+    var acceptedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-";
 	var result = "";
 	for (var i = 0, len = idArticle.length; i < len; i++) {
 	    if(acceptedChars.includes(idArticle[i])){

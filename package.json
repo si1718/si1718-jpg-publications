@@ -20,8 +20,9 @@
   "homepage": "https://github.com/si1718/si1718-jpg-publications#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "bower": "^1.8.2",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
-    "mongodb": "^2.2.33",
-    "bower": "^1.8.2"
+    "mongodb": "^2.2.33"
   }
 }

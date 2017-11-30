@@ -11,7 +11,10 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
     }
     function updateArticle(){
         if(!($scope.article.authors instanceof Array)){
-            $scope.article.authors = propertiesService.splitAuthors($scope.article.authors);
+            $scope.article.authors = propertiesService.splitCSV($scope.article.authors);
+        }
+        if($scope.article.keywords && !($scope.article.keywords instanceof Array)){
+           $scope.article.keywords = propertiesService.splitCSV($scope.article.keywords); 
         }
         if(lockService.checkLock()){
             modalService.showAlert(propertiesService.ERROR_APP_BUSSY);

@@ -3,13 +3,13 @@
 var expressJS = require("express");
 var bodyParserJS = require("body-parser");
 var mongodbJS = require("mongodb");
+var corsJS = require("cors");
 var propertiesJS = require("./properties");
 var articlesJS = require("./articles");
 
 var app = expressJS();
 var mongoClient = mongodbJS.MongoClient;
 var articlesCollection = undefined;
-
 
 
 mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(err, database) {
@@ -26,6 +26,7 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
 });
 
 app.use(bodyParserJS.json());
+app.use(corsJS());
 app.use(expressJS.static('./public/'));
 
 //Create main retrievers

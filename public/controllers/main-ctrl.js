@@ -140,8 +140,8 @@ function PropertiesService(){
         return {"header":header, "msg":msg}
     }
     
-    this.splitAuthors = function(autStr){
-        return autStr.split(",");
+    this.splitCSV = function(csvStr){
+        return csvStr.split(",");
     }
 }
 
