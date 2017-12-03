@@ -3,16 +3,16 @@ function LockService() {
 
     this.checkLock = function () {
         return lock;
-    }
+    };
 
     this.releaseLock = function () {
         lock = false;
-    }
+    };
 
     this.blockLock = function () {
         lock = true;
-    }
-};
+    };
+}
 
 function ModalService(){
     var MODAL_NAME = "#systemModal";
@@ -24,7 +24,7 @@ function ModalService(){
         $(MODAL_TEXT).text(args["msg"]);
         //Change color
         $(MODAL_NAME).modal("show");
-    }
+    };
     
     this.showAlert = function(msg, header = "Error"){
          $(MODAL_HEADER).text(header);
@@ -50,6 +50,12 @@ function ModalService(){
 }
 
 function PropertiesService(){
+    var DEFAULT_API_URI = "/api/v1/articles/";
+    this.DEFAULT_API_URI = DEFAULT_API_URI;
+    var DEFAULT_JOURNAL_URI = "https://si1718-amo-journals.herokuapp.com/api/v1/journals/";
+    this.DEFAULT_JOURNAL_URI = DEFAULT_JOURNAL_URI;
+    var DEFAULT_AUTHOR_URI = "https://si1718-dfr-researchers.herokuapp.com/api/v1/researchers/";
+    this.DEFAULT_AUTHOR_URI = DEFAULT_AUTHOR_URI;
     var HEADER_INFO = "Info";
     this.HEADER_INFO = HEADER_INFO;
     var HEADER_ERROR = "Error";
@@ -76,8 +82,35 @@ function PropertiesService(){
     var ERROR_INTERNAL_ERROR = "Some error happens, Sorry, try later";
     this.ERROR_INTERNAL_ERROR = ERROR_INTERNAL_ERROR;
     
+    var ERROR_JOURNAL_NOT_FOUND = "Journal not found";
+    this.ERROR_JOURNAL_NOT_FOUND = ERROR_JOURNAL_NOT_FOUND;
+    var ERROR_JOURNAL_CANNOT_VALIDATE = "Cannot validate Journal";
+    this.ERROR_JOURNAL_CANNOT_VALIDATE = ERROR_JOURNAL_CANNOT_VALIDATE;
+    var ERROR_JOURNAL_ERROR = "Cannot validate Journal, try later";
+    this.ERROR_JOURNAL_ERROR = ERROR_JOURNAL_ERROR;
+    var ERROR_JOURNAL_ERROR_EMPTY = "The journal field is empty!";
+    this.ERROR_JOURNAL_ERROR_EMPTY = ERROR_JOURNAL_ERROR_EMPTY;
+    
+    var INFO_JOURNAL_VALID = "Journal valid";
+    this.INFO_JOURNAL_VALID = INFO_JOURNAL_VALID;
+    
+    var ERROR_AUTHOR_NOT_FOUND = "Author not found";
+    this.ERROR_AUTHOR_NOT_FOUND = ERROR_AUTHOR_NOT_FOUND;
+    var ERROR_AUTHOR_CANNOT_VALIDATE = "Cannot validate Author";
+    this.ERROR_AUTHOR_CANNOT_VALIDATE = ERROR_AUTHOR_CANNOT_VALIDATE;
+    var ERROR_AUTHOR_ERROR = "Cannot validate Author, try later";
+    this.ERROR_AUTHOR_ERROR = ERROR_AUTHOR_ERROR;
+    var ERROR_AUTHOR_ERROR_EMPTY = "The author field is empty!";
+    this.ERROR_AUTHOR_ERROR_EMPTY = ERROR_AUTHOR_ERROR_EMPTY;
+    
+    var INFO_AUTHOR_VALID = "Author valid";
+    this.INFO_AUTHOR_VALID = INFO_AUTHOR_VALID;
+    
+    var ERROR_CHART_CANNOT_LOAD = "Cannot load chart";
+    this.ERROR_CHART_CANNOT_LOAD = ERROR_CHART_CANNOT_LOAD;
+    
     this.INFO_DELETED = "Article deleted";
-    this.INFO_UPDATED = "Article updated"
+    this.INFO_UPDATED = "Article updated";
     this.ERROR_APP_BUSSY = "The application is bussy, try later";
     
     //CODE SUCESS
@@ -137,21 +170,24 @@ function PropertiesService(){
             msg = ERROR_INTERNAL_ERROR;
             header = HEADER_ERROR;
         }
-        return {"header":header, "msg":msg}
-    }
+        return {"header":header, "msg":msg};
+    };
     
     this.splitCSV = function(csvStr){
         return csvStr.split(",");
-    }
+    };
 }
 
-var app = angular.module("ArticlesApp", ["ngRoute"]).config(function($routeProvider) {
+angular.module("ArticlesApp", ["ngRoute"]).config(function($routeProvider) {
     $routeProvider.when("/", {
         templateUrl: "/views/articlesList.html",
         controller: "ListCtrl"
     }).when("/articles/:idArticle", {
         templateUrl: "/views/articleEdit.html",
         controller: "EditCtrl"
+    }).when("/chart/", {
+        templateUrl: "/views/chart.html",
+        controller: "ChartCtrl"
     });
     console.log("App Initialized");
 }).service("lockService", [LockService]).service("modalService", [ModalService]).service("propertiesService", [PropertiesService]);

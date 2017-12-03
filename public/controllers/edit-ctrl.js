@@ -1,5 +1,4 @@
-var app = angular.module("ArticlesApp");
-app.controller("EditCtrl",["$scope", "$http", "$routeParams", "$location", "lockService", "modalService", "propertiesService", 
+angular.module("ArticlesApp").controller("EditCtrl",["$scope", "$http", "$routeParams", "$location", "lockService", "modalService", "propertiesService", 
 function function_name($scope, $http, $routeParams, $location, lockService, modalService, propertiesService) {
     $scope.test = "This is a test";
     $scope.buttonAction = "Update";
@@ -37,8 +36,18 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
         $location.path("/");
     }
     
+    function addEditAuthor(){
+        $scope.article.authors.push({});
+    }
+    
+    function removeEditAuthor(index){
+        $scope.article.authors.splice(index, 1);
+    }
+    
     refresh($scope.idArticle);
     $scope.refresh = refresh;
     $scope.updateArticle = updateArticle;
     $scope.cancel = cancel;
+    $scope.addEditAuthor = addEditAuthor;
+    $scope.removeEditAuthor = removeEditAuthor;
 }]);

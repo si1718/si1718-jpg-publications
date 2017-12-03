@@ -25,8 +25,8 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
     }
 });
 
-app.use(bodyParserJS.json());
 app.use(corsJS());
+app.use(bodyParserJS.json());
 app.use(expressJS.static('./public/'));
 
 //Create main retrievers

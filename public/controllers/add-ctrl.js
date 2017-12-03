@@ -1,6 +1,5 @@
-var app = angular.module("ArticlesApp");
-app.controller("AddCtrl",["$scope", "$http", "$routeParams", "$location", "lockService", "modalService", "propertiesService", 
-function function_name($scope, $http, $routeParams, $location, lockService, modalService, propertiesService) {
+angular.module("ArticlesApp").controller("AddCtrl",["$scope", "$http", "$httpParamSerializer", "$routeParams", "$location", "lockService", "modalService", "propertiesService", 
+function function_name($scope, $http, $httpParamSerializer, $routeParams, $location, lockService, modalService, propertiesService) {
     $scope.test = "This is a test";
     $scope.buttonAction = "Add";
     $scope.idArticle = $routeParams.idArticle;
@@ -16,7 +15,7 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
             return;
         }
         lockService.blockLock();
-        $http.post("/api/v1/articles/", $scope.newArticle).then(function(response){
+        $http.post(propertiesService.DEFAULT_API_URI, $scope.newArticle).then(function(response){
             console.log("added");
             $scope.refresh();
             $scope.clearNewArticle();
@@ -32,9 +31,23 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
     
     function clearNewArticle(){
         $scope.newArticle = {};
+        $scope.newArticle.authors = [];
+        $scope.newArticle.authors.push({});
+        $('.addCls').prop('disabled', false);
+        $('.addAutCls').prop('disabled', false);
+    }
+    
+    function addNewAuthor(){
+        $scope.newArticle.authors.push({});
+    }
+    
+    function removeNewAuthor(index){
+        $scope.newArticle.authors.splice(index, 1);
     }
 
     $scope.addArticle = addArticle;
     $scope.clearNewArticle = clearNewArticle;
+    $scope.addNewAuthor = addNewAuthor;
+    $scope.removeNewAuthor = removeNewAuthor;
     clearNewArticle();
 }]);

@@ -14,8 +14,9 @@ class Articles{
     this.initPage = 0;
     this.lastPage = 0;
     this.keywords = [];
+    this.journalIssn = null;
+    this.journalTitle = null;
  }
- 
 }
 
 function convertJsonToObject(json, idArticle){
@@ -33,6 +34,8 @@ function convertJsonToObject(json, idArticle){
     } else {
         object.idArticle = sanitizeDoi(json.doi, object);
     }
+    object.journalIssn = json.journalIssn;
+    object.journalTitle = json.journalTitle;
     return object;
 }
 
@@ -80,20 +83,19 @@ function createQueryObject(query){
         object.lastPage = parseInt(query.lastPage);
         //object.lastPage = {$regex: REGEX_PATTERN + query.lastPage + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
-    /*if(query.authors instanceof Array){
-        if (query.authors.length != 0){
-            object.authors = query.authors;
-            object.authors = {$regex: REGEX_PATTERN + query.authors + REGEX_PATTERN, $options: REGEX_OPTIONS };
-        }
-    }*/
     if (query.authors && query.authors !== ""){
-        //object.authors = query.authors;
-        object.authors = {$regex: REGEX_PATTERN + query.authors + REGEX_PATTERN, $options: REGEX_OPTIONS };
+        //object.authors = query.authors;{ $elemMatch: { <query1>, <query2>, ... } }
+        object.authors = {$elemMatch : {name : {$regex: REGEX_PATTERN + query.authors + REGEX_PATTERN, $options: REGEX_OPTIONS }}};
     }
-    
     if(query.keywords && query.keywords !== ""){
         //object.keywords = query.keywords;
         object.keywords = {$regex: REGEX_PATTERN + query.keywords + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.journalIssn && query.journalIssn !== ""){
+        object.journalIssn = {$regex: REGEX_PATTERN + query.journalIssn + REGEX_PATTERN, $options: REGEX_OPTIONS };
+    }
+    if(query.journalTitle && query.journalTitle !== ""){
+        object.journalTitle = {$regex: REGEX_PATTERN + query.journalTitle + REGEX_PATTERN, $options: REGEX_OPTIONS };
     }
     return object;
 }
@@ -131,8 +133,21 @@ function validateArticle(article){
         return false;
     } else if (article.authors.length == 0){
         return false;
+    } else {
+        for(var index in article.authors){
+            var author = article.authors[index];
+            if (author.name === undefined || author.name === null || author.name === ""){
+                return false;
+            }
+        }
     }
     if(article.keywords && !(article.keywords instanceof Array)){
+        return false;
+    }
+    if(article.journalIssn && article.journalIssn === ""){
+        return false;
+    }
+    if(article.journalTitle && article.journalTitle === ""){
         return false;
     }
     return result;
@@ -144,10 +159,7 @@ function isNumber (o) {
 
 function sanitizeDoi(doi, article) {
     var idArticle = null;
-	if(doi === "") {
-		return null;
-	}
-	if(doi !== null) {
+	if(doi !== null && doi !== undefined && doi !== "") {
 		if(doi.includes("dx.doi.org")) {
 			var finaldoi = "";
 			var parts = doi.split("/");
@@ -178,14 +190,14 @@ function generateUniqueID(article) {
 	var nameP = article.title.split(" ");
 	nameP.forEach( function(value, index, array) {
         if(value !== "") {
-			result += value.charAt(0);
+			result += value;
 		}
     });
 	if(article.journal !== null) {
 		var journalP = article.journal.split(" ");
 		journalP.forEach( function(value, index, array) {
             if(value !== "") {
-		        result += value.charAt(0);
+		        result += value;
 		    }
         });
 	}

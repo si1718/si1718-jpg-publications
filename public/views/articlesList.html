@@ -35,7 +35,7 @@
         ng-click="setSelected(article.idArticle)" ng-class="{selected: article.idArticle === idSelected}">
             <td><span class="glyphicon glyphicon-ok" ng-show="article.idArticle === idSelected"></span></td>
             <td>{{article.title}}</td>
-            <td>{{article.journal}}</td>
+            <td>{{(undefined === article.journalTitle || null === article.journalTitle) ? article.journal : article.journalTitle}}</td>
             <td>{{article.year}}</td>
             <td>{{article.doi}}</td>
         </tr>

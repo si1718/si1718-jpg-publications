@@ -1,10 +1,9 @@
-var app = angular.module("ArticlesApp");
-app.controller("ListCtrl",["$scope", "$http", "$httpParamSerializer", "$location", "lockService", "modalService", "propertiesService",
+angular.module("ArticlesApp").controller("ListCtrl",["$scope", "$http", "$httpParamSerializer", "$location", "lockService", "modalService", "propertiesService",
 function function_name($scope, $http, $httpParamSerializer, $location, lockService, modalService, propertiesService) {
     $scope.test = "This is a test";
     function refresh(){
         return searchArticle();
-        /*$http.get("/api/v1/articles/").then(function(response){
+        /*$http.get(propertiesService.DEFAULT_API_URI).then(function(response){
             $scope.articles = response.data;
         }, function(error){
             console.log("error");
@@ -29,7 +28,7 @@ function function_name($scope, $http, $httpParamSerializer, $location, lockServi
             return;
         }
         lockService.blockLock();
-        $http.delete("/api/v1/articles/" + $scope.idSelected).then(function(response){
+        $http.delete(propertiesService.DEFAULT_API_URI + $scope.idSelected).then(function(response){
             $scope.idSelected = undefined;
             refresh();
             modalService.showInfo(propertiesService.INFO_DELETED);

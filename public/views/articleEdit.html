@@ -4,11 +4,28 @@
 <label for="title">Title</label>
 <input type="text" name="title" ng-model="article.title"/><br/>
 <label for="journal">Journal</label>
-<input type="text" name="journal" ng-model="article.journal"/><br/>
+<input id="editJournalInput" type="text" name="journal" class="editCls" ng-model="article.journal"/>
+<button id="validateEditJournalButton" class="btn btn-primary editCls" ng-click="validateJournal('validateEditJournalButton', 'editJournalInput', article)">Validate</button><br/>
+<fieldset disabled>
+    <label for="journal" ng-class="{hidden: (undefined === article.journalTitle || null === article.journalTitle)}">Journal Title</label>
+    <input type="text" name="journal" ng-model="article.journalTitle" ng-class="{hidden: (undefined === article.journalTitle || null === article.journalTitle)}" class="disabled"/>
+    <label for="journal" ng-class="{hidden: (undefined === article.journalTitle || null === article.journalTitle)}">Journal Issn</label>
+    <input type="text" name="journal" ng-model="article.journalIssn" ng-class="{hidden: (undefined === article.journalTitle || null === article.journalTitle)}" class="disabled"/>
+</fieldset>
+<button id="unvalidateEditJournalButton" class="btn btn-danger" ng-class="{hidden: (undefined === article.journalTitle || null === article.journalTitle)}" ng-click="unvalidateJournal('validateEditJournalButton', 'editJournalInput', article, '.editCls')">Clear</button><br/>
 <label for="year">Year</label>
 <input type="text" name="year" ng-model="article.year"/><br/>
 <label for="authors">Authors</label>
-<input type="text" name="authors" ng-model="article.authors"/><br/>
+<button class="btn btn-secondary" ng-click="addEditAuthor()">Add</button><br/>
+<div ng-repeat="author in article.authors">
+    <label for="authors">New Author</label>
+    <input id="authorEditInput{{article.authors.indexOf(author)}}" type="text" name="authors" ng-model="author.name"/>
+    <label for="authors" ng-class="{hidden: (undefined === author.author || null === author.author)}">Url</label>
+    <input type="text" name="authors" ng-model="author.author" ng-class="{hidden: (undefined === author.author || null === author.author)}" disabled/>
+    <button id="validateAuthorButton{{article.authors.indexOf(author)}}" 
+        class="btn btn-primary editAutCls" ng-click="validateAuthor('validateAuthorButton' + article.authors.indexOf(author), 'authorEditInput' + article.authors.indexOf(author), article.authors.indexOf(author), article)">Validate</button><br/>
+    <button class="btn btn-danger" ng-click="removeEditAuthor(article.authors.indexOf(author))" ng-class="{hidden: (article.authors.length == 1)}">Clear</button><br/>
+</div>
 <label for="volume">Volume</label>
 <input type="text" name="volume" ng-model="article.volume"/><br/>
 <label for="number">Number</label>
