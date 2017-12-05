@@ -36,7 +36,7 @@ function function_name($scope, $http, $httpParamSerializer, $routeParams, $locat
                         //Close the gate!!
                         $('#' + buttonToblock).prop('disabled', true);
                         $('#' + fieldToBlock).prop('disabled', true);
-                        objectName.journal = propertiesService.DEFAULT_JOURNAL_URI + journalId;
+                        objectName.journal = propertiesService.DEFAULT_JOURNAL_URI + journal.idJournal;
                         modalService.showInfo(propertiesService.INFO_JOURNAL_VALID + "\nTitle: " + journal.title + "\nIssn: " + journal.issn);
                     } else {
                         modalService.showAlert(propertiesService.ERROR_JOURNAL_NOT_FOUND);
