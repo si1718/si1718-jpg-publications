@@ -98,7 +98,7 @@ function function_name($scope, $http, $httpParamSerializer, $location, lockServi
                 type: 'line'
             },
             title: {
-                text: 'Number of tweets per day'
+                text: 'Number of tweets per ' + $scope.reportType
             },
             subtitle: {
                 text: 'Source: twitter'
