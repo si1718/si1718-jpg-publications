@@ -1,0 +1,11 @@
+<h2>Selected: {{keywordSelected}}</h2>
+<select ng-options="x for x in keywords" ng-change="refreshChart()" ng-model="keywordSelected"></select>
+<label>
+<input type="radio" ng-model="reportType" value="day" ng-change="refreshChart()">
+ Day
+</label>
+<label>
+<input type="radio" ng-model="reportType" value="month" ng-change="refreshChart()">
+ Month
+</label><br/>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>

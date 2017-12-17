@@ -188,6 +188,9 @@ angular.module("ArticlesApp", ["ngRoute"]).config(function($routeProvider) {
     }).when("/chart/", {
         templateUrl: "/views/chart.html",
         controller: "ChartCtrl"
+    }).when("/tweetchart/", {
+        templateUrl: "/views/tweetchart.html",
+        controller: "TweetChartCtrl"
     });
     console.log("App Initialized");
 }).service("lockService", [LockService]).service("modalService", [ModalService]).service("propertiesService", [PropertiesService]);

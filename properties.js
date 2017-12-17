@@ -3,6 +3,8 @@
 var URL_BASE = "/api/v1/";
 var BBDD_URL = process.env.BD_URL;
 var RESSOURCE_NAME = "articles";
+var REPORTS_NAME = "reports";
+var KEYWORDS_NAME = "keywords";
 //CODE SUCESS
 var CODE_SUCESS = 200;
 var CODE_CREATED = 201;
@@ -27,6 +29,12 @@ module.exports = {
    },
    RESSOURCE_NAME: function(){
        return RESSOURCE_NAME;
+   },
+   REPORTS_NAME: function(){
+       return REPORTS_NAME;
+   },
+   KEYWORDS_NAME: function(){
+       return KEYWORDS_NAME;
    },
    CODE_SUCESS:CODE_SUCESS,
    CODE_CREATED:CODE_CREATED,

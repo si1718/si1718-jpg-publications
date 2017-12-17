@@ -10,6 +10,7 @@ var articlesJS = require("./articles");
 var app = expressJS();
 var mongoClient = mongodbJS.MongoClient;
 var articlesCollection = undefined;
+var reportCollection = undefined;
 
 
 mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(err, database) {
@@ -19,6 +20,7 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
     }
     else {
         articlesCollection = database.collection(propertiesJS.RESSOURCE_NAME());
+        reportCollection = database.collection(propertiesJS.REPORTS_NAME());
 
         //Start the app
         app.listen(process.env.PORT);
@@ -213,4 +215,48 @@ app.delete(propertiesJS.URL_BASE() + propertiesJS.RESSOURCE_NAME() + "/:idArticl
             }
         });
     }
+});
+
+//REPORTS PART
+app.get(propertiesJS.URL_BASE() + propertiesJS.REPORTS_NAME(), function(req, res) {
+    var urlQuery = req.query;
+    var keyword, type;
+    var limit = null;
+    var last = null;
+    if(urlQuery){
+        if(urlQuery.keyword){
+            keyword = urlQuery.keyword;
+        }
+        if(urlQuery.type){
+            type = urlQuery.type;
+        }
+        if(!keyword || !type){
+           res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
+           return;
+        }
+    }
+    
+    function searchCallback(error, reports) {
+        if (error) {
+            res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+        }
+        else {
+            res.send(reports);
+        }
+    }
+    var query = {"$and": [{"keyword":{"$eq": keyword}}, {"report_type":{"$eq": type}}]};
+    reportCollection.find(query).toArray(searchCallback);
+});
+
+app.get(propertiesJS.URL_BASE() + propertiesJS.KEYWORDS_NAME(), function(req, res) {
+    
+    function searchCallback(error, reports) {
+        if (error) {
+            res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+        }
+        else {
+            res.send(reports);
+        }
+    }
+    articlesCollection.distinct(propertiesJS.KEYWORDS_NAME(), searchCallback);
 });
