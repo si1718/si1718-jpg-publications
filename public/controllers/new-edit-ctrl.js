@@ -39,7 +39,7 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
     }
     
     function cancel(){
-        $location.path("/");
+        $location.path("/newarticles");
     }
     
     function addEditAuthor(){

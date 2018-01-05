@@ -11,9 +11,15 @@ function function_name($scope, $http, $httpParamSerializer, $location, lockServi
         });*/
     }
     function addArticle(){
-        $location.path("/articles/" + $scope.idSelected);
+        $location.path("/edit/articles/" + $scope.idSelected);
     }
     function editArticle(){
+        if(undefined === $scope.idSelected){
+            return;
+        }
+        $location.path("/edit/articles/" + $scope.idSelected);
+    }
+    function viewArticle(){
         if(undefined === $scope.idSelected){
             return;
         }
@@ -103,6 +109,7 @@ function function_name($scope, $http, $httpParamSerializer, $location, lockServi
     $scope.refresh = refresh;
     $scope.addArticle = addArticle;
     $scope.editArticle = editArticle;
+    $scope.viewArticle = viewArticle;
     $scope.removeArticle = removeArticle;
     $scope.clearSearchArticle = clearSearchArticle;
     $scope.searchArticle = doSearchArticle;

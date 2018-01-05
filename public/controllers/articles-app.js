@@ -184,6 +184,9 @@ angular.module("ArticlesApp", ["ngRoute"]).config(function($routeProvider) {
         templateUrl: "/views/articlesList.html",
         controller: "ListCtrl"
     }).when("/articles/:idArticle", {
+        templateUrl: "/views/articleView.html",
+        controller: "ViewCtrl"
+    }).when("/edit/articles/:idArticle", {
         templateUrl: "/views/articleEdit.html",
         controller: "EditCtrl"
     }).when("/chart/", {
