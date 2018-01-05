@@ -11,6 +11,7 @@ var app = expressJS();
 var mongoClient = mongodbJS.MongoClient;
 var articlesCollection = undefined;
 var reportCollection = undefined;
+var newArticlesCollection = undefined;
 
 
 mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(err, database) {
@@ -21,6 +22,7 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
     else {
         articlesCollection = database.collection(propertiesJS.RESSOURCE_NAME());
         reportCollection = database.collection(propertiesJS.REPORTS_NAME());
+        newArticlesCollection = database.collection(propertiesJS.NEWARTICLES_NAME());
 
         //Start the app
         app.listen(process.env.PORT);
@@ -259,4 +261,87 @@ app.get(propertiesJS.URL_BASE() + propertiesJS.KEYWORDS_NAME(), function(req, re
         }
     }
     articlesCollection.distinct(propertiesJS.KEYWORDS_NAME(), searchCallback);
+});
+
+//NEW articles
+app.get(propertiesJS.URL_BASE() + propertiesJS.NEWARTICLES_NAME(), function(req, res) {
+    var urlQuery = req.query;
+    var query;
+    var limit = null;
+    var last = null;
+    if(urlQuery){
+        query = articlesJS.createQueryObject(urlQuery);
+        if(query == null){
+            query = {}
+        }
+        if(urlQuery.limit && urlQuery.skip){
+            try{
+                limit= parseInt(urlQuery.limit);
+                last = parseInt(urlQuery.skip);
+            } catch(error){
+                res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
+                return;
+            }
+        }
+    }
+    
+    function searchCallback(error, articles) {
+        if (error) {
+            res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+        }
+        else {
+            res.send(articles);
+        }
+    }
+    if(limit !== null && last !== null){
+        newArticlesCollection.find(query).skip(last).limit(limit).toArray(searchCallback);
+    } else {
+        newArticlesCollection.find(query).toArray(searchCallback);
+    }
+});
+
+app.get(propertiesJS.URL_BASE() + propertiesJS.NEWARTICLES_NAME() + "/:idArticle", function(req, res) {
+    var idArticle = req.params.idArticle;
+    if (!idArticle) {
+        res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
+    }
+    else {
+        var query = { idArticle: req.params.idArticle }
+        newArticlesCollection.find(query).toArray(function(error, articles) {
+            if (!idArticle) {
+                res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+            }
+            else {
+                if (articles.length > 0) {
+                    res.send(articles);
+                }
+                else {
+                    res.sendStatus(propertiesJS.CODE_NOT_FOUND);
+                }
+            }
+        });
+    }
+});
+
+app.delete(propertiesJS.URL_BASE() + propertiesJS.NEWARTICLES_NAME() + "/:idArticle", function(req, res) {
+    var idArticle = req.params.idArticle;
+    if (!idArticle) {
+        res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
+    } else {
+        var query = { idArticle: req.params.idArticle }
+        newArticlesCollection.deleteOne(query, function(error, rows) {
+            if (error) {
+                res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+            }
+            else {
+                if (rows.result.n > 0) {
+                    console.log("Delete resource: " + idArticle);
+                    res.sendStatus(propertiesJS.CODE_NO_CONTENT);
+                }
+                else {
+                    res.sendStatus(propertiesJS.CODE_NOT_FOUND);
+                }
+            }
+        });
+    }
 });

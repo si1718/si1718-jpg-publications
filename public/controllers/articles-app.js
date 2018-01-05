@@ -111,6 +111,7 @@ function PropertiesService(){
     
     this.INFO_DELETED = "Article deleted";
     this.INFO_UPDATED = "Article updated";
+    this.INFO_NEW_ADDED = INFO_CREATED;
     this.ERROR_APP_BUSSY = "The application is bussy, try later";
     
     //CODE SUCESS
@@ -191,6 +192,12 @@ angular.module("ArticlesApp", ["ngRoute"]).config(function($routeProvider) {
     }).when("/tweetchart/", {
         templateUrl: "/views/tweetchart.html",
         controller: "TweetChartCtrl"
+    }).when("/newarticles/", {
+        templateUrl: "/views/newarticlesList.html",
+        controller: "NewListCtrl"
+    }).when("/newarticles/:idArticle", {
+        templateUrl: "/views/articleEdit.html",
+        controller: "NewEditCtrl"
     });
     console.log("App Initialized");
 }).service("lockService", [LockService]).service("modalService", [ModalService]).service("propertiesService", [PropertiesService]);

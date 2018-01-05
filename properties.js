@@ -5,6 +5,8 @@ var BBDD_URL = process.env.BD_URL;
 var RESSOURCE_NAME = "articles";
 var REPORTS_NAME = "reports";
 var KEYWORDS_NAME = "keywords";
+var NEWARTICLES_NAME = "newArticles";
+
 //CODE SUCESS
 var CODE_SUCESS = 200;
 var CODE_CREATED = 201;
@@ -35,6 +37,9 @@ module.exports = {
    },
    KEYWORDS_NAME: function(){
        return KEYWORDS_NAME;
+   },
+   NEWARTICLES_NAME: function(){
+       return NEWARTICLES_NAME;
    },
    CODE_SUCESS:CODE_SUCESS,
    CODE_CREATED:CODE_CREATED,
