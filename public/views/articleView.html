@@ -30,4 +30,19 @@
 <input type="text" name="lastPage" ng-model="article.lastPage" disabled/><br/>
 <label for="keywords">Keywords</label>
 <input type="text" name="keywords" ng-model="article.keywords" disabled/><br/>
+<h2>Recommendations</h2>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Article</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="recom in recommendations track by recom.articleB">
+            <td><a href="/#!/articles/{{recom.articleB}}">{{recom.articleB}}</a></td>
+            <td>{{recom.rating}}</td>
+        </tr>
+    </tbody>
+</table>
 <button class="btn btn-primary btn-danger" ng-click="cancel()">Return</button>

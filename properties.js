@@ -7,6 +7,7 @@ var REPORTS_NAME = "reports";
 var KEYWORDS_NAME = "keywords";
 var NEWARTICLES_NAME = "newArticles";
 var ARTICLESGRAPH_NAME = "articlesGraph";
+var RECOMMENDATIONS_NAME = "recommendations";
 
 //CODE SUCESS
 var CODE_SUCESS = 200;
@@ -44,6 +45,9 @@ module.exports = {
    },
    ARTICLESGRAPH_NAME: function(){
        return ARTICLESGRAPH_NAME;
+   },
+   RECOMMENDATIONS_NAME: function(){
+       return RECOMMENDATIONS_NAME;
    },
    CODE_SUCESS:CODE_SUCESS,
    CODE_CREATED:CODE_CREATED,

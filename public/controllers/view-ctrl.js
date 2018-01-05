@@ -6,6 +6,11 @@ function function_name($scope, $http, $routeParams, $location, lockService, moda
     function refresh(idArticle){
         $http.get("/api/v1/articles/" + idArticle).then(function(response){
             $scope.article = response.data[0];
+            $http.get("/api/v1/recommendations/" + idArticle).then(function(response){
+                $scope.recommendations = response.data;
+            }, function(error){
+                console.log("error, no recommendations");
+            });
         });
     }
     

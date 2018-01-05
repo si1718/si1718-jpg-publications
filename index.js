@@ -13,6 +13,7 @@ var articlesCollection = undefined;
 var reportCollection = undefined;
 var newArticlesCollection = undefined;
 var articlesGraphCollection = undefined;
+var recommendationsCollection = undefined;
 
 
 mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(err, database) {
@@ -25,6 +26,7 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
         reportCollection = database.collection(propertiesJS.REPORTS_NAME());
         newArticlesCollection = database.collection(propertiesJS.NEWARTICLES_NAME());
         articlesGraphCollection = database.collection(propertiesJS.ARTICLESGRAPH_NAME());
+        recommendationsCollection = database.collection(propertiesJS.RECOMMENDATIONS_NAME());
 
         //Start the app
         app.listen(process.env.PORT);
@@ -352,6 +354,30 @@ app.delete(propertiesJS.URL_BASE() + propertiesJS.NEWARTICLES_NAME() + "/:idArti
                 if (rows.result.n > 0) {
                     console.log("Delete resource: " + idArticle);
                     res.sendStatus(propertiesJS.CODE_NO_CONTENT);
+                }
+                else {
+                    res.sendStatus(propertiesJS.CODE_NOT_FOUND);
+                }
+            }
+        });
+    }
+});
+
+//Recomendations
+app.get(propertiesJS.URL_BASE() + propertiesJS.RECOMMENDATIONS_NAME() + "/:idArticle", function(req, res) {
+    var idArticle = req.params.idArticle;
+    if (!idArticle) {
+        res.sendStatus(propertiesJS.CODE_BAD_REQUEST);
+    }
+    else {
+        var query = { articleA: req.params.idArticle }
+        recommendationsCollection.find(query).toArray(function(error, articles) {
+            if (!idArticle) {
+                res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+            }
+            else {
+                if (articles.length > 0) {
+                    res.send(articles);
                 }
                 else {
                     res.sendStatus(propertiesJS.CODE_NOT_FOUND);
