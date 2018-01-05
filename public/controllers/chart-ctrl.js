@@ -2,33 +2,36 @@ angular.module("ArticlesApp").controller("ChartCtrl",["$scope", "$http", "$httpP
 function function_name($scope, $http, $httpParamSerializer, $location, lockService, modalService, propertiesService) {
     
     function refreshChart(){
-        $http.get("/api/v1/articles/").then(function(response){
-            var articles = response.data;
-            var yearMap = {};
+        $http.get("/api/v1/articlesGraph/").then(function(response){
+            var dataGraph = response.data;
             
-            for(var index in articles){
-                var article = articles[index];
-                var year = article.year;
+            var years = [];
+            
+            for(var index in dataGraph){
+                var data = dataGraph[index];
+                var year = data.year;
                 if(typeof(year) === "number"){
-                    if(yearMap[year] === undefined){
-                        yearMap[year] = 1;
+                    years.push(year);
+                }
+            }
+            
+            var numbers = new Array(years.length);
+            years.sort();
+            
+            for(var index in dataGraph){
+                var data = dataGraph[index];
+                var number = data.number;
+                var year = data.year;
+                if(typeof(year) === "number"){
+                    var pos = years.indexOf(year);
+                    if(typeof(number) === "number"){
+                        numbers[pos] = number;
                     } else {
-                        yearMap[year] =  yearMap[year] + 1;
+                        numbers[pos] = 0;
                     }
                 }
             }
-            console.log(yearMap);
-            var years = [];
             
-            for(var year in yearMap){
-                years.push(year);
-            }
-            var numbers = new Array(years.length);
-            years.sort();
-            for(var index in yearMap){
-                var pos = years.indexOf(index);
-                numbers[pos] = yearMap[index];
-            }
             console.log(years);
             console.log(numbers);
             fillChart(years, numbers);

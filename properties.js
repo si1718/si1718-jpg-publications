@@ -6,6 +6,7 @@ var RESSOURCE_NAME = "articles";
 var REPORTS_NAME = "reports";
 var KEYWORDS_NAME = "keywords";
 var NEWARTICLES_NAME = "newArticles";
+var ARTICLESGRAPH_NAME = "articlesGraph";
 
 //CODE SUCESS
 var CODE_SUCESS = 200;
@@ -40,6 +41,9 @@ module.exports = {
    },
    NEWARTICLES_NAME: function(){
        return NEWARTICLES_NAME;
+   },
+   ARTICLESGRAPH_NAME: function(){
+       return ARTICLESGRAPH_NAME;
    },
    CODE_SUCESS:CODE_SUCESS,
    CODE_CREATED:CODE_CREATED,

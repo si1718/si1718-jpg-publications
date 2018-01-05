@@ -12,6 +12,7 @@ var mongoClient = mongodbJS.MongoClient;
 var articlesCollection = undefined;
 var reportCollection = undefined;
 var newArticlesCollection = undefined;
+var articlesGraphCollection = undefined;
 
 
 mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(err, database) {
@@ -23,6 +24,7 @@ mongoClient.connect(propertiesJS.BBDD_URL(), { native_parser: true }, function(e
         articlesCollection = database.collection(propertiesJS.RESSOURCE_NAME());
         reportCollection = database.collection(propertiesJS.REPORTS_NAME());
         newArticlesCollection = database.collection(propertiesJS.NEWARTICLES_NAME());
+        articlesGraphCollection = database.collection(propertiesJS.ARTICLESGRAPH_NAME());
 
         //Start the app
         app.listen(process.env.PORT);
@@ -261,6 +263,19 @@ app.get(propertiesJS.URL_BASE() + propertiesJS.KEYWORDS_NAME(), function(req, re
         }
     }
     articlesCollection.distinct(propertiesJS.KEYWORDS_NAME(), searchCallback);
+});
+
+app.get(propertiesJS.URL_BASE() + propertiesJS.ARTICLESGRAPH_NAME(), function(req, res) {
+    
+    function searchCallback(error, reports) {
+        if (error) {
+            res.sendStatus(propertiesJS.CODE_INTERNAL_ERROR);
+        }
+        else {
+            res.send(reports);
+        }
+    }
+    articlesGraphCollection.find().toArray(searchCallback);
 });
 
 //NEW articles
